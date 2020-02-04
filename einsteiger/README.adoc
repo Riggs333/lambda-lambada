@@ -1,0 +1,231 @@
+= Lambda Lambada: Einsteiger
+04.02.2020
+:icons: font
+:icon-set: octicon
+:source-highlighter: rouge
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+Funktionale Programmierkonzepte erfordern ein Umdenken in der Art wie wir Daten
+betrachten. Wir betrachten beispielsweise weniger einzelne Daten einer
+Collection für sich, sondern überlegen, wie wir mittels kleiner Funktionen
+unsere Daten so transformieren können, wie wir sie für die weitere Verwendung
+benötigen.
+
+IMPORTANT: Importiere dieses Gradle-Projekt in einer IDE deiner Wahl
+
+== Lambdas und Methodenreferenzen
+
+Lambda-Funktionen sind kleine Funktionen, die mit wenig Syntax definiert werden.
+Dabei sollten die Methoden entsprechend kurz und prägnant sein, sodass man sie
+auch mit einem Blick verstehen kann. Diese Funktionen können als Parameter an
+andere Funktionen (= Higher Order Functions) übergeben und ausgeführt werden.
+
+Vor Java 8 musste noch viel Code geschrieben werden, um beispielsweise einen
+Thread zu starten:
+
+[source,java]
+----
+// Vor Java 8:
+new Thread(new Runnable() {
+    @Override
+    public void run() {
+        System.out.println("Viel Code zu schreiben für einen Thread :-/");
+    }
+}).start();
+----
+
+Mit Lambdas kann es so aussehen:
+
+[source,java]
+----
+new Thread(() -> System.out.println("Besser :-)")).start();
+----
+
+Das funktioniert, weil `Runnable` ein
+https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html[FunctionalInterface]
+ist, also ein Interface, welches genau eine abstrakte Methode beinhaltet. Mit
+dem Lambda geben wir die Implementierung für diese abstrakte Methode an und
+führen sie aus.
+
+Die Syntax für Lambdas ist:
+
+[source,java]
+----
+( Lambda-Parameter ) -> { Anweisungen }
+----
+
+Hat man nur eine Anweisung, können die geschweiften Klammern ausgelassen werden.
+
+== Streams
+
+Streams stellen Ströme von Referenzen dar und bieten mächtige Möglichkeiten auf
+Datenstrukturen verkettete Operationen (parallel) durchzuführen. Haben wir
+beispielsweise eine Liste von Zahlen, können wir mit der Methode `.stream()`
+einen Datenstrom aus dieser Collection erzeugen:
+
+[source,java]
+----
+List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+integers.stream();
+----
+
+NOTE: Auf Streams können viele Operationen durchgeführt werden. Kopiere den oben
+angegebenen Code in schaue, welche Streamoperationen vorgeschlagen werden.
+
+Einige Higher-Order-Functions, also Funktionen, die Funktionen als Parameter
+entgegennehmen, können auf Streams angewendet werden. Beispielsweise die
+Funktion `map`, welche eine Funktion annehmen kann, die einen Parameter hat und
+einen Rückgabewert hat. So können wir beispielsweise eine Quadrierfunktion als
+Lambda übergeben und es auf unseren Stream anwenden:
+
+[source,java]
+----
+List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+integers.stream()
+        .map(i -> i * i);
+----
+
+Es können beliebig viele weitere Streamoperationen durchgeführt und angehangen
+werden:
+
+[source,java]
+----
+integers.stream()
+        .map(i -> i * i)
+        .filter(i -> i > 4);
+----
+
+Streams werden häufig mit Consumern terminiert. Beispielsweise könnten wir mit
+`forEach` als letzten Schritt unseres Streams eine Evaluation der
+Streamoperationen herbeiführen:
+
+[source,java]
+----
+integers.stream()
+        .map(i -> i * i)
+        .filter(i -> i > 4)
+        .forEach(i -> System.out.println(i));
+----
+
+Es können auch Methoden an andere Methoden mittels Methodenreferenz übergeben
+werden. So können wir die Funktion `println` aus `System.out` an `forEach`
+übergeben:
+
+[source,java]
+----
+integers.stream()
+        .map(i -> i * i)
+        .filter(i -> i > 4)
+        .forEach(System.out::println);
+----
+
+=== Sonderformen von Streams
+
+Es gibt einige Sonderformen von Streams, beispielsweise IntStream, LongStream
+and DoubleStream. Diese bieten ein paar Komfortfunktionen. Beispielsweise können
+Streams direkt befüllt werden mit:
+
+[source,java]
+----
+IntStream.range(0, 10).sum()
+----
+
+Es wird ein Stream mit den Zahlen von 0 bis 9 generiert und dann die Summe
+darüber gebildet. Dies sind optimierte Funktionen, die besonders gut auf
+bestimmten Datentypen funktionieren. Es lohnt sich manchmal zwischen den Streams
+hin und her zu konvertieren, beispielsweise mit `mapToInt`, welches einen
+IntStream zurückgibt, oder `mapToObj`, welches entsprechende Referenzen von
+Objekten zurückgibt.
+
+== Aufgaben
+
+Experimentieren wir nun mit Streams und Lambdas herum. Es gibt Tests für die
+Funktionen, welche in der entsprechenden Testklasse aktiviert werden müssen,
+indem `@Disabled` entfernt wird.
+
+Da keine Zahlen als Packagenamen erlaubt sind, erfolgt die Sortierung der
+Aufgaben über Kleinbuchstaben. Also bitte bei `a` beginnen.
+
+Die Übungen dienen nur als Aufhänger – experimentiert ruhig selbst ein wenig mit
+den APIs herum.
+
+=== a: Warmup
+
+NOTE: Die Aufgaben befinden sich im Package `de.rheinjug.lambda.a`.
+
+Einfache Streamoperationen befinden sich in diesem Package.
+
+
+=== b: filter
+
+NOTE: Die Aufgaben befinden sich im Package `de.rheinjug.lambda.b`.
+
+Mit der Funktion `filter` können wir auf Streams Prädikate definieren, welche zu
+`true` evaluieren müssen, damit betrachtete Elemente weiterhin im Stream
+verbleiben.
+
+Mit `filter` lassen sich beliebige Regeln definieren, die für die Elemente
+innerhalb unseres Streams gelten müssen.
+
+
+=== c: map, filter, collect
+
+NOTE: Die Aufgaben befinden sich im Package `de.rheinjug.lambda.c`.
+
+Mit `collect` kann ein Stream die Auswertung einleiten und die Daten in einer
+anderen Datenstruktur zur weiteren Verarbeitung zusammenpacken, beispielsweise
+alle Strings in einer Liste sammeln. Dafür muss dem `collect` die Funktion
+`Collectors.toList()` aufgerufen werden.
+
+`collect` ist noch mächtiger, aber häufig holt man sich so die Daten aus den
+Streams und verpackt sie so in eine Liste für den weiteren normalen
+Programmablauf.
+
+
+=== d: Klausurpunkte
+
+NOTE: Die Aufgaben befinden sich im Package `de.rheinjug.lambda.d`.
+
+In jedem Semester müssen wir entscheiden, wer bestanden hat. Häufig arbeiten wir
+mit CSVs, da unser altes Abgabesystem nunmal so tickt.
+
+In dieser Aufgabe wollen wir nun eine aus dem Abgabesystem generierte CSV Datei
+einlesen, Objekte daraus generieren und später schauen, wer nun insgesamt
+bestanden hat. Weitere Statistiken, wie "wer hat die Hauptklausur bestanden?"
+oder "Welche Klausur ist im Durchschnitt besser ausgefallen?" können hier auch
+noch bearbeitet werden.
+
+
+=== e: Higher-Order-Functions
+
+NOTE: Die Aufgaben befinden sich im Package `de.rheinjug.lambda.e`.
+
+Zeit die erste eigene Higher-Order-Function zu schreiben. Entwickelt werden soll
+eine Funktion, die eine Funktion und einen Wert übergeben bekommt, diese dann
+zweimal auf den übergebenen Wert anwendet und das Ergebnis zurückliefert. Zum
+Beispiel könnte das wie folgt aussehen:
+
+[source, java]
+----
+applyTwice(n -> n * n, 4)
+// => 256
+----
+
+NOTE: Implementiere die Funktion `applyTwice` so, dass sie mit Integern
+funktioniert.
+
+Diese HOF kann auch generisch sein, sodass verschiedene Typen funktionieren:
+
+[source, java]
+----
+applyTwice(n -> n * n, "a")
+// => "aaaa"
+----
+
+NOTE: Transformiere deine HOF in eine generische HOF.

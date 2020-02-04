@@ -1,0 +1,51 @@
+= Lambda Lambada
+04.02.2020
+:icons: font
+:icon-set: octicon
+:source-highlighter: rouge
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+[quote,Alan Perlis]
+Fools ignore complexity.
+Pragmatists suffer it.
+Some can avoid it.
+Geniuses remove it.
+
+NOTE: Dieser Workshop richtet sich an EinsteigerInnen und fortgeschrittene
+EntwicklerInnen der funktionalen Programmierkonzepte mit Java.
+
+Hallo und herzlich willkommen!
+
+Wir wollen mit den folgenden beiden Projekten in die funktionale Welt einführen
+und euch Konzepte nahebringen, die eure Entwicklung im Java-Umfeld positiv
+beeinflussen können. Dazu haben wir diesen Workshop entwickelt und ihn in zwei
+Bereiche eingeteilt: Einsteiger und Fortgeschrittene. Wählt den zugehörigen
+Unterordner aus und startet mit den Übungen.
+
+Ihr müsst die Übungen nicht nacheinander absolvieren, sondern könnt auch
+jederzeit irgendwoanders weitermachen. Außerdem sind die Übungen nur Vorschläge
+– dieser Lernprozess lebt auch davon, dass ihr eigene Ideen einbringt und eigene
+Probleme damit löst. Die Aufgaben können dafür auch schlicht als Aufhänger
+dienen.
+
+IMPORTANT: Die Einsteigeraufgaben befinden sich im Projekt
+link:einsteiger/[einsteiger/]
+
+IMPORTANT: Für spannendere Aufgaben gibt es das Projekt
+link:fortgeschrittene/[fortgeschrittene/]
+
+== Links
+
+* https://speakerdeck.com/bendisposto/lambda-lambada[Slides zur Intro "Lambda
+Lambada"]
+* https://forms.gle/n4paa3dYy2CUMS2a6[Feedback an uns]
+
+== Copyright
+
+(c) 2020 https://github.com/bendisposto[Jens Bendisposto] und https://github.com/n2o[Christian Meter]

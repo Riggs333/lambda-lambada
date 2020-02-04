@@ -1,0 +1,84 @@
+= Fortgeschrittene Aufgaben
+
+== Lambda Ausdrücke
+
+=== Scopes
+In den allermeisten Fällen können Lambda Ausdrücke anstelle von anonymen inneren Klassen benutzen.
+Aber es gibt kleine Unterschiede. Neben der Tatsache, dass Lambda Ausdrücke nicht wie anonyme innere Klassen
+ Class Dateien erzeugen, gibt es auch keine Instanzen von Lambda Ausdrücken, was eine Auswirkung darauf hat,
+was `this` in einem Lambda Ausdruck bedeutet.
+
+*Aufgabe*: Implementiere die Assertion in der `test_lambdaExpression` Methode der Klasse `ScopeTest`.
+
+
+=== Mapping, Monster, Mutationen
+Beim Präsidentengolf ist etwas schiefgelaufen. Der Test `PresidentialGolfingTest`schlägt fehl.
+
+*Aufgaben*:
+
+. Was ist genau das Problem?
+. Was können wir daraus lernen über den Zusammenhang zwischen Streams und der
+zugrundeliegenden Collection?
+. Welche Regel können wir für intermediäre Stream Operationen ableiten?
+
+=== Faule Socke
+Nicht einmal zurücklehnen und kassieren schaffen wir richtig! In der `print` Methode der
+Klasse `ZuruecklehnenUndKassieren` gibt es ein Problem. Der `Printer` wird nicht aufgerufen.
+
+*Aufgaben*:
+
+. Wie kommt das Problem zu Stande?
+. Was unterscheidet die Stream Methoden `map` und `forEach`?
+. Bekommen wir das auch mit `map` (auch wenn das nicht empfohlen ist) ans Laufen?
+. Was müssen wir bei Streams immer im Blick haben?
+
+
+== Parallele Streams
+
+Wenn wir Streams parallel verarbeiten, gibt es ein ganze Reihe von Aspekten, die wir im Auge behalten müssen.
+In den folgenden Aufgaben schauen wir uns Fälle an, wo sich die Resultate unterscheiden und versuchen die Probleme
+zu beheben.
+
+=== Erzeugen von Streams
+Es gibt zwei Möglichkeiten unendliche Streams zu erzeugen. Die Methode `generate` verwendet einen Supplier, d.h.
+eine Funktion, die keine Eingabe bekommt und einen Wert liefert. Die Methode `iterate` bekommt einen
+Initialwert `x` und einen einstelligen Operator, die den Typ von `x` verarbeiten kann und liefert einen
+unendlichen Stream `x, f(x), f(f(x)), f(f(f(x))), usw.`.
+
+*Aufgaben*:
+. Wozu können wir `generate` verwenden, ohne Probleme bei parallelen Streams zu bekommen?
+. Was können wir folgern über die Parallelität von `iterate`?
+
+=== ForEach
+
+Mit der terminalen Operation `forEach` können wir einen Seiteneffekt für jedes Element des Streams bewirken,
+beispielsweise können wir die Elemente ausgeben. Leider verhält sich `forEach` anders in parallelen Streams.
+
+*Aufgabe*: Repariere die `forEachParallel` Methode der Klasse `ForEach` so, dass die Tests durchlaufen.
+Die parallele Berechnung von `map` und `filter` soll dabei erhalten bleiben.
+
+
+=== Reducing
+
+Schauen wir uns an, wie `reduce` auf Streams funktioniert. Im Test `ReducingTest` sind einige Tests, bei
+denen sich die parallele Berechnung von der Berechnung auf einem sequentiellen Stream unterscheidet. Es gibt zwei
+unterschiedliche Gründe aus denen `addieren` und `implication` falsche Resultate liefern. Die
+Methode `subtrahieren` scheitert aus der Kombination beider Gründe.
+
+*Aufgaben*:
+
+. Woran liegt es, dass sich die Berechnungen unterscheiden?
+. Repariere die Implementierungen. Dabei soll die parallele Berechnung nach Möglichkeit erhalten bleiben.
+
+
+== Collector
+Für die Bewertung einer Klausur wollen wir einige Werte (minimale Punktzahl, maximale Punktzahl,
+Durchschnittspunktzahl und die Anzahl der Klausuren, die bestanden haben) ausrechnen. Wir könnten das machen, indem
+wir mehrfach über die Liste iterieren, wir möchten aber versuchen, mit einem Durchgang auszukommen.
+Dazu benötigen wir eine Implementierung des Collector Interfaces.
+
+*Aufgaben*:
+. Ergänze die Implementierung des `KlausurCollectors`. Die Implementierung der Methode `charateristics` ist
+fertig. Eventuell ist es sinnvoll, auch in der Klasse `ZwischenErgebnis` Code hinzuzufügen.
+. Probiere aus, ob deine Implementierung auch mit einem parallelen Stream funktioniert.
+
